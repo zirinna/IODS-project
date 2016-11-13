@@ -1,0 +1,22 @@
+```{r packages, include = FALSE}
+# if the ggplot2 library is not installed, install it
+if(!require(ggplot2)) {
+  install.packages("ggplot2")
+}
+```
+
+
+```{r child = "project1.Rmd"}
+```
+
+```{r child = "project2.Rmd"}
+```
+
+```{r child = "project3.Rmd"}
+```
+
+```{r child = "project4.Rmd"}
+```
+
+```{r child = "project5.Rmd"}
+```
