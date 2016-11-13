@@ -1,0 +1,21 @@
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# load data
+iods <- read.table("data/iods.txt", header = T)
+```
+
+# Project 4 title
+
+*Describe the project here and summarize your learning.*
+
+### Including R output
+
+Include R code and output such as graphs and tables inside 'code chunks' like below:  
+
+```{r}
+
+```
+
+***
+
