@@ -1,4 +1,3 @@
-
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 # load data
@@ -14,8 +13,5 @@ iods <- read.table("data/iods.txt", header = T)
 Include R code and output such as graphs and tables inside 'code chunks' like below:  
 
 ```{r}
-
+# write R code here
 ```
-
-***
-
