@@ -1,5 +1,4 @@
 ```{r, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 # load data
 iods <- read.table("data/iods.txt", header = T)
 ```

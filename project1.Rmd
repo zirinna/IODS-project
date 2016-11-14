@@ -1,5 +1,4 @@
 ```{r, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 # load data
 iods <- read.table("data/iods.txt", header = T)
 ```
@@ -26,3 +25,5 @@ qplot(Attitude, Points, data = iods) + geom_smooth(method = "lm")
 ### Helpful resources
 
 - Rmarkdown [cheat sheat](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+- HTML documents [Documentation](http://rmarkdown.rstudio.com/html_document_format.html)
+- in the index.Rmd you can choose on of [these themes](http://bootswatch.com/) for you page
