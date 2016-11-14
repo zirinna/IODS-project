@@ -1,8 +1,8 @@
 ---
-title: "Introduction to Open Data Science course project"
+title: "IODS course project"
 output:
   html_document:
-    theme: lumen
+    theme: cosmo
     toc: true
     toc_depth: 2
     number_sections: true
