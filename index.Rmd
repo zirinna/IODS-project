@@ -21,27 +21,27 @@ if(!require(ggplot2)) {
   
 ***
   
-```{r child = "project1.Rmd"}
+```{r child = "chapter1.Rmd"}
 ```
   
 ***
   
-```{r child = "project2.Rmd"}
+```{r child = "chapter2.Rmd"}
 ```
   
 ***
   
-```{r child = "project3.Rmd"}
+```{r child = "chapter3.Rmd"}
 ```
   
 ***
   
-```{r child = "project4.Rmd"}
+```{r child = "chapter.Rmd"}
 ```
   
 ***
   
-```{r child = "project5.Rmd"}
+```{r child = "chapter5.Rmd"}
 ```
   
 ***
