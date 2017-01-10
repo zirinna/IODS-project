@@ -1,11 +1,7 @@
-```{r, include=FALSE}
-# load data
-iods <- read.table("data/iods.txt", header = T)
-```
 
-# Project title
+# Chapter title
 
-*Describe the project here and summarize your learning.*
+*Describe the work you have done this week and summarize your learning.*
 
 ```{r}
 # write R code here

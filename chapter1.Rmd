@@ -1,22 +1,23 @@
 ```{r, include=FALSE}
+# The 'include=FALSE' hides the code in the output file.
+
 # load data
 iods <- read.table("data/iods.txt", header = T)
 ```
 
-# Project title
+# Chapter title
 
-*Describe the project here and summarize your learning.*
+*Describe the work you have done this week and summarize your learning.*
 
-- Describe your work and results clearly  
-- Assume the reader has an introductory course level understanding of writing and reading R code  
-- Assume the reader has an introductory course level understanding of statistical methods  
+- Describe your work and results clearly. 
+- Assume the reader has an introductory course level understanding of writing and reading R code as well as statistical methods
 - Assume the reader has no previous knowledge of your data or the more advanced methods you are using  
 
 ## Including R output
 
 Include R code and output such as graphs and tables inside 'code chunks' like below:  
 
-```{r}
+```{r, warning=FALSE}
 library(ggplot2)
 qplot(Attitude, Points, data = iods) + geom_smooth(method = "lm")
 ```
@@ -24,7 +25,7 @@ qplot(Attitude, Points, data = iods) + geom_smooth(method = "lm")
 
 ## Helpful resources
 
-- Rmarkdown [cheat sheat](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
-- Rmarkdown [reference guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)  
-- Rmarkdown HTML documents [documentation](http://rmarkdown.rstudio.com/html_document_format.html)
-- in your index.Rmd file you can choose a [bootswatch theme](http://bootswatch.com/) for you page
+- RMarkdown [cheat sheat](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+- RMarkdown [reference guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)  
+- RMarkdown HTML documents [documentation](http://rmarkdown.rstudio.com/html_document_format.html)
+- In the index.Rmd file you can choose a [bootswatch theme](http://bootswatch.com/) for you page
