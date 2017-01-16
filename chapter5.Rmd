@@ -1,8 +1,0 @@
-
-# Chapter title
-
-*Describe the work you have done this week and summarize your learning.*
-
-```{r}
-# write R code here
-```
