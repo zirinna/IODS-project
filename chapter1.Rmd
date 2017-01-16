@@ -1,9 +1,3 @@
-```{r, include=FALSE}
-# The 'include=FALSE' hides the code in the output file.
-
-# load data
-iods <- read.table("data/iods.txt", header = T)
-```
 
 # Chapter title
 
@@ -13,19 +7,12 @@ iods <- read.table("data/iods.txt", header = T)
 - Assume the reader has an introductory course level understanding of writing and reading R code as well as statistical methods
 - Assume the reader has no previous knowledge of your data or the more advanced methods you are using  
 
-## Including R output
-
-Include R code and output such as graphs and tables inside 'code chunks' like below:  
-
-```{r, warning=FALSE}
-library(ggplot2)
-qplot(Attitude, Points, data = iods) + geom_smooth(method = "lm")
-```
-
 
 ## Helpful resources
 
-- RMarkdown [cheat sheat](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
-- RMarkdown [reference guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)  
-- RMarkdown HTML documents [documentation](http://rmarkdown.rstudio.com/html_document_format.html)
 - In the index.Rmd file you can choose a [bootswatch theme](http://bootswatch.com/) for you page
+- R basics: [base R cheat sheet](https://www.rstudio.com/wp-content/uploads/2016/10/r-cheat-sheet-3.pdf)
+- RMarkdown basics: [R markdown cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+- RMarkdown more: [reference guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)  
+- Rmarkdown advaced: RMarkdown HTML documents [documentation](http://rmarkdown.rstudio.com/html_document_format.html)
+- Your favourite web search engine :)
