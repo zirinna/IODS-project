@@ -1,18 +1,4 @@
 
-# Chapter title
+# About the project
 
-*Describe the work you have done this week and summarize your learning.*
-
-- Describe your work and results clearly. 
-- Assume the reader has an introductory course level understanding of writing and reading R code as well as statistical methods
-- Assume the reader has no previous knowledge of your data or the more advanced methods you are using  
-
-
-## Helpful resources
-
-- In the index.Rmd file you can choose a [bootswatch theme](http://bootswatch.com/) for you page
-- R basics: [base R cheat sheet](https://www.rstudio.com/wp-content/uploads/2016/10/r-cheat-sheet-3.pdf)
-- RMarkdown basics: [R markdown cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
-- RMarkdown more: [reference guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)  
-- Rmarkdown advaced: RMarkdown HTML documents [documentation](http://rmarkdown.rstudio.com/html_document_format.html)
-- Your favourite web search engine :)
+*Describe the work you have done this week and summarize your learning. Also add a link to your github repository.*
