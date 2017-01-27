@@ -1,9 +1,2 @@
----
-title: "Please read me"
-author: "Sini S."
-date: "27 tammikuuta 2017"
-output: html_document
----
-
 My course diary you will find here: https://zirinna.github.io/IODS-project/
 
