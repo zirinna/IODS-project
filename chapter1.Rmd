@@ -1,4 +1,4 @@
 
 # About the project
 
-On this course I'll learn more about R and Git. The address of my Github repository for this course is https://github.com/zirinna/IODS-project
+On this course I'll learn more about open data science. The address of my Github repository for this course is https://github.com/zirinna/IODS-project
