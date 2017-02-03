@@ -1,7 +1,84 @@
-# Insert chapter 2 title here
 
-*Describe the work you have done this week and summarize your learning.*
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Analysis exercise, week 2
 
-- Describe your work and results clearly. 
-- Assume the reader has an introductory course level understanding of writing and reading R code as well as statistical methods
-- Assume the reader has no previous knowledge of your data or the more advanced methods you are using  
+## About the data
+
+This week I analyzed data about student's learning strategies and their exam points on one introductory statistics course (more about data from [here](http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-meta.txt)). First I read the dataset that I had previously cleaned as instructed.
+
+```{r, echo=FALSE}
+lrn14 <- read.table("./data/learning2014.txt", sep=" ", header=TRUE)
+```
+
+The new dataset I had created by choosing some variables from the original data and removing observationpoints where the exam points were 0, has 7 variables and 166 observations:
+```{r, echo=FALSE}
+dim(lrn14)
+```
+
+These variables describe the gender, age, attitude, exam points and deep learning, surface learning and strategic learning approaches of the students. Gender has two values, male and female, age and points are integers and the rest of the variables have numerical values describing the average answer a student has given in the questions concerning the attitude and different learning approaches.
+```{r, echo=FALSE}
+str(lrn14)
+```
+
+## Exploring the data
+
+There are lots of different tools to explore the data, and I start with printing a summary of the data:
+
+```{r, echo=FALSE}
+summary(lrn14)
+```
+
+From the summary we can for example see that the youngest respondant is only 17, where as the oldest is 55. The values of attitude variable range from 1.4 to full 5, so someone seems to be not at all interested in statistics, where at least one person seems to be highly motivated. The different learning approaches have similar minimal and maximal values.
+
+To explore the data visually I will be using the R library GGally and it's pair plotting function here. With GGally I plotted a concise picture about the correlations and distributions of the variables, separately for females and males. Females are coloured red and males blue in the picture.
+
+```{r, echo=FALSE}
+library(GGally)
+library(ggplot2)
+p <- ggpairs(lrn14, mapping = aes(col = gender, alpha = 0.3), lower = list(combo = wrap("facethist", bins = 20)))
+p
+```
+
+From the plot we can see that there are much more females in the data. The boxplots tell us for example that the median male age is a bit higher than the median female age. The median attitude towards statistics is also a bit higher among the male respondants, but the median exam points are almost the same among females and males. The distribution plot confirms that the attitude of the male respondant's is skewed to the right where as the attitudes of female respondants are more normally distributed.
+
+The correlation constant seems to be highest between attitude and exam points (0.422 positive correlation). The next highest (absolute) correlations between exam points and other variables are correlation between strategic learning and exam points and correlation between surface learning and exam points. That is why I started with those three variables (attitude, stra and surf) when I created regresssion model.
+
+## Regression analysis
+
+So I created a regression model with attitude, strategic learning and surface learning as explanatory variables and exam points as responsive variable:
+
+```{r, echo=FALSE}
+model1 <- lm(points ~ attitude + stra + surf, data = lrn14)
+summary(model1)
+```
+
+The summary of the model tells us that only attitude is a statistically significant (p < 0.05) explanatory variable in this model. The p values of the other two aren't even close to 0.05 which is usually seen as the border value, so I drop the strategic learning and surface learning from the model, and only keep attitude as an explanatory variable.
+
+```{r, echo=FALSE}
+model2 <- lm(points ~ attitude, data = lrn14)
+summary(model2)
+```
+
+The summary of the model tells that the p-value of the explanatory variable attitude is statistically significant (p < 0.001), which means that it is really really unlikely that the attitude doesn't effect the exam points. The intercept estimate is about 11, which means that according to this model, if the students attitude score is 0, the exam points would be about 11. The R^2 value is about 0.19, which means that attitude explains about 19% of the variation in the exam points. The estimate of the attitude, about 3.5, means that when the attitude variable increases by 1, the exam points increase by about 3.5.
+
+```{r, echo=FALSE}
+model2 <- lm(points ~ attitude, data = lrn14)
+plot(lrn14$attitude, lrn14$points, xlab="Attitude towards statistics", ylab="Exam points")
+abline(model2, col="green")
+```
+
+We can see from the plot of the model, that the observations are quite scattered around, which hints that the linear correlation can't be very close to 1.
+
+
+## Diagnostics
+
+Let's see what information the diagnostic plots can tell us about our model. What if there is no real linear correlation between attitude and exam points, but for example non-linear correlation?
+
+```{r, echo=FALSE}
+par(mfrow = c(2,2))
+plot(model2, which = c(1, 2, 5))
+```
+
+The residuals vs. fitted values seem to be okay, the red line is quite straight. Also the standardized residuals in the Normal Q-Q plot are quite nicely on the line. In the last picture, there are a couple observations that are further than Cook's distance, which means that those datapoints should probably be looked at more closely, as they might be erratical. AFter all, the diagnostics plots seem okay, and thus there seems to be linear correlation between attitude towars statistics and exam points.
