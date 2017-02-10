@@ -7,6 +7,43 @@ output: html_document
 
 # Analysis exercise, week 3
 
-## About the data
+## Exploring the data
 
+This week we are using a dataset about students' alcohol use. The dataset has been combined from two datasets, surveys conducted on a math course and on a portuguese course. Only those students, who are present in both datasets have been kept in the joined data. The variables not used for joining the two data have been combined by averaging and two new variables have been added: alc_use, which is the average of workday alcohol consumption and weekend alcohol consumption, and high_use, which has the value TRUE when alc_use is higher than 2 and FALSE otherwise.
 
+More information about the data can be found [here](https://archive.ics.uci.edu/ml/datasets/STUDENT+ALCOHOL+CONSUMPTION).
+
+```{r}
+# installing tidyr
+install.packages("tidyr")
+# reading the dataset
+alc <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/alc.txt", sep=",", header=TRUE)
+```
+The dataset has the following variables:
+
+```{r}
+colnames(data)
+```
+
+I am supposed to study the relationship between student's alcohol usage and some other variables, so I choose four variables in the data to examine closer. These variables are sex, Medu (mother's education), studytime and absences. My hypotheses are that boys have higher alcohol consumption than girls, mother's education is negatively correlated with alcohol consumption, time spent studying is negatively correlated with alcohol consumption and absences are positively correlated with alcohol consumption.
+
+Let's first check what the alcohol usage looks like.
+
+```{r}
+# initialize a plot of alcohol use
+g1 <- ggplot(data = alc, aes(x = alc_use, fill = sex))
+# define the plot as a bar plot and draw it
+g1 + geom_bar() + ggtitle("Alcohol consumption and sex")
+```
+
+It seems that most students claim to consume alcohol very little (the scale used in the questionnaire ranged from 1 - very low to 5 - very high). The graph also tells that the students who have reported to use alcohol a lot are mostly boys. This aligns with my hypothesis.
+
+What about absences then, how do they seem to relate to alcohol consumption?
+
+```{r}
+# initialise a plot of high_use and absences
+g1 <- ggplot(alc, aes(x = high_use, y = absences, col = sex))
+
+# define the plot as a boxplot and draw it
+g1 + geom_boxplot() + ylab("absences") + ggtitle("Student absences by alcohol consumption and sex")
+```
