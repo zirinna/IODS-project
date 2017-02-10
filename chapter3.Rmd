@@ -1,0 +1,12 @@
+---
+title: "chapter3"
+author: "Sini S."
+date: "10 helmikuuta 2017"
+output: html_document
+---
+
+# Analysis exercise, week 3
+
+## About the data
+
+
