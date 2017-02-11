@@ -119,7 +119,7 @@ CI <- confint(m2) %>% exp
 # print out the odds ratios with their confidence intervals
 cbind(OR, CI)
 ```
-Odds higher than 1 mean that the explanatory variable is positively associated with high alcohol usage. According to the odds ratios, being male and often absent from school has a positive association with high alcohol usage. The odds ratio for Sex has the widest confidence interval and absences the narrowest. None of the confidence intervals contain 1, which is a good sign. If a confidence interval for an odds ratio contained 1, there would a chance that the explanatory variable does not affect odds of outcome (high alcohol usage).
+Odds higher than 1 mean that the explanatory variable is positively associated with high alcohol usage. According to the odds ratios, being male and often absent from school has a positive association with high alcohol usage, and so does having absences from school. Studytime seems to be negatively associated with high alcohol usage, because its odds ratio is smaller than one. The odds ratio for Sex has the widest confidence interval and absences the narrowest. None of the confidence intervals contain 1, which is a good sign. If a confidence interval for an odds ratio contained 1, there would a chance that the explanatory variable does not affect odds of outcome (high alcohol usage).
 
 
 ```{r}

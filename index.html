@@ -455,7 +455,7 @@ cbind(OR, CI)</code></pre>
 ## sexM        2.2336616 1.3654842 3.6919354
 ## absences    1.0721389 1.0371431 1.1128019
 ## studytime   0.6448662 0.4668797 0.8749551</code></pre>
-<p>Odds higher than 1 mean that the explanatory variable is positively associated with high alcohol usage. According to the odds ratios, being male and often absent from school has a positive association with high alcohol usage. The odds ratio for Sex has the widest confidence interval and absences the narrowest. None of the confidence intervals contain 1, which is a good sign. If a confidence interval for an odds ratio contained 1, there would a chance that the explanatory variable does not affect odds of outcome (high alcohol usage).</p>
+<p>Odds higher than 1 mean that the explanatory variable is positively associated with high alcohol usage. According to the odds ratios, being male and often absent from school has a positive association with high alcohol usage, and so does having absences from school. Studytime seems to be negatively associated with high alcohol usage, because its odds ratio is smaller than one. The odds ratio for Sex has the widest confidence interval and absences the narrowest. None of the confidence intervals contain 1, which is a good sign. If a confidence interval for an odds ratio contained 1, there would a chance that the explanatory variable does not affect odds of outcome (high alcohol usage).</p>
 <pre class="r"><code># predict() the probability of high_use
 probabilities &lt;- predict(m2, type = &quot;response&quot;)
 
@@ -490,7 +490,7 @@ cv &lt;- cv.glm(data = alc, cost = loss_func, glmfit = m2, K = 10)
 
 # average number of wrong predictions in the cross validation
 cv$delta[1]</code></pre>
-<pre><code>## [1] 0.2486911</code></pre>
+<pre><code>## [1] 0.2539267</code></pre>
 <p>According to 10-fold cross-validation, my model has about 0.24 error, which is a bit better than the model introduced in DataCamp exercises.</p>
 <hr />
 </div>
