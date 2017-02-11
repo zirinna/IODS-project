@@ -1,10 +1,3 @@
----
-title: "chapter3"
-author: "Sini S."
-date: "10 helmikuuta 2017"
-output: html_document
----
-
 # Analysis exercise, week 3
 
 ## Exploring the data
@@ -14,21 +7,23 @@ This week we are using a dataset about students' alcohol use. The dataset has be
 More information about the data can be found [here](https://archive.ics.uci.edu/ml/datasets/STUDENT+ALCOHOL+CONSUMPTION).
 
 ```{r}
-# installing tidyr
-install.packages("tidyr")
 # reading the dataset
 alc <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/alc.txt", sep=",", header=TRUE)
 ```
 The dataset has the following variables:
 
 ```{r}
-colnames(data)
+colnames(alc)
 ```
 
 I am supposed to study the relationship between student's alcohol usage and some other variables, so I choose four variables in the data to examine closer. These variables are sex, Medu (mother's education), studytime and absences. My hypotheses are that boys have higher alcohol consumption than girls, mother's education is negatively correlated with alcohol consumption, time spent studying is negatively correlated with alcohol consumption and absences are positively correlated with alcohol consumption.
 
 Let's first check what the alcohol usage looks like.
 
+```{r, message=FALSE}
+# access the tidyverse libraries tidyr, dplyr, ggplot2
+library(tidyr); library(dplyr); library(ggplot2)
+```
 ```{r}
 # initialize a plot of alcohol use
 g1 <- ggplot(data = alc, aes(x = alc_use, fill = sex))
@@ -41,9 +36,132 @@ It seems that most students claim to consume alcohol very little (the scale used
 What about absences then, how do they seem to relate to alcohol consumption?
 
 ```{r}
-# initialise a plot of high_use and absences
+# initialize a plot of high_use and absences
 g1 <- ggplot(alc, aes(x = high_use, y = absences, col = sex))
-
 # define the plot as a boxplot and draw it
 g1 + geom_boxplot() + ylab("absences") + ggtitle("Student absences by alcohol consumption and sex")
 ```
+From the boxplot we can see that the mean of the absences from school variable for both girls and boys is higher for those students, whose alcohol consumption is defined as high (average of workday and weekend alcohol consumption is higher than 2). My hypothesis might be right. From the crosstable this is much harder to see:
+
+```{r}
+table("absences from school" = alc$absences, "alcohol usage" = alc$alc_use)
+```
+From the crosstable we can clearly see that most students have only a few absences, regardless of alcohol consumption levels.
+
+How about mother's education and alcohol usage then?
+```{r}
+# plot of alc_use and MEdu
+g2 <- ggplot(alc, aes(x = high_use, y = Medu, col = sex))
+g2 + geom_boxplot()+ ylab("mother's education") + ggtitle("Student's alcohol use by his/her mother's education")
+```
+
+Alcohol usage plotted with mother's education on the other hand doesn't look very interesting. The median for mother's education seems to be the same for both boys and girls and high users and low users, and the 25% and 75% quantiles are also the same for every group. The boxes are almost identical. There are very few students in this data whose mother's education level is "no education at all"", so maybe I should have combined the lowest two education levels into one class, though. 
+
+```{r}
+# mother's education
+p <- ggplot(alc, aes(x = Medu))
+p + geom_bar() + ggtitle("Mother's education level") + xlab("mother's education")
+```
+
+Crosstable tells the same story:
+```{r}
+table("mother's education" = alc$Medu, "alcohol usage" = alc$alc_use)
+```
+Seems that my hypothesis isn't correct.
+
+How much time the student studies weekly could be related to how much the student uses alcohol. Let's see how the boxplot looks like:
+
+```{r}
+# plot of alc_use and studytime
+g3 <- ggplot(alc, aes(x = high_use, y = studytime, col = sex))
+g3 + geom_boxplot()
+```
+Boxplot isn't maybe the best plot in this case, but it looks like girls use more time studying than boys. Those girls whose alcohol use is defined as high, use less time studying than girls with low alcohol use, though.
+
+```{r}
+# crosstable of studytime and alcohol usage
+t <- table("studytime" = alc$studytime, "alcohol usage" = alc$high_use)
+round(prop.table(t, 1)*100, 1)
+```
+
+From the crosstable that shows the row percentages we can see that the higher the time spent studying weekly, the less probably it is that the student is a high user. This aligns with my hypothesis.
+
+## Building a regression model
+
+Thus far sex, studytime and absences seem promising explanatory variables and mother's education not so much. Let's build a logistic regression model in which we include all the four variables as explanatory variables and high use as a response variable, just in case:
+
+```{r}
+m1 <- glm(high_use ~ Medu + studytime + sex + absences, data = alc, family = "binomial")
+summary(m1)
+coef(m1)
+```
+
+According to the model summary, mother's education isn't a statistically significant explanatory variable, but the other three are. Let's drop mother's income from the model:
+
+```{r}
+m2 <- glm(high_use ~ sex + absences + studytime, data = alc, family = "binomial")
+summary(m2)
+coef(m2)
+```
+
+This looks much better, all the explanatory variables are statistically significant. The coefficients suggest that being a male and having a lot of absences are positively correlated with high alcohol use, where as weekly studytime is negatively correlated with high alcohol use.
+
+We can compute the odds ratios and their confidence intervals:
+
+```{r, message=FALSE}
+# compute odds ratios (OR)
+OR <- coef(m2) %>% exp
+
+# compute confidence intervals (CI)
+CI <- confint(m2) %>% exp
+```
+```{r}
+# print out the odds ratios with their confidence intervals
+cbind(OR, CI)
+```
+Odds higher than 1 mean that the explanatory variable is positively associated with high alcohol usage. According to the odds ratios, being male and often absent from school has a positive association with high alcohol usage. The odds ratio for Sex has the widest confidence interval and absences the narrowest. None of the confidence intervals contain 1, which is a good sign. If a confidence interval for an odds ratio contained 1, there would a chance that the explanatory variable does not affect odds of outcome (high alcohol usage).
+
+
+```{r}
+# predict() the probability of high_use
+probabilities <- predict(m2, type = "response")
+
+# add the predicted probabilities to 'alc'
+alc <- mutate(alc, probability = probabilities)
+
+# use the probabilities to make a prediction of high_use
+alc <- mutate(alc, prediction = probability > 0.5)
+```
+
+To explore predictive power of my model, we can compute the crosstabulation of predictions versus actual values:
+```{r}
+# tabulate the target variable versus the predictions
+table(high_use = alc$high_use, prediction = alc$prediction)
+```
+
+There are 85 + 9 = 94 students whose alcohol consumption the model failed to predict.
+
+With loss function we can compute the average number of wrong predictions in the data:
+```{r}
+# define a loss function (mean prediction error)
+loss_func <- function(class, prob) {
+  n_wrong <- abs(class - prob) > 0.5
+  mean(n_wrong)
+}
+
+# call loss_func to compute the average number of wrong predictions in the (training) data
+loss_func(class = alc$high_use, prob = alc$probability)
+```
+The average proportion of wrong predictions in the data is about 24%. Simple guessing strategy would have about 50%  wrong predictions (the way I understand simple guessing...) so my model seems to be better than simple guessing.
+
+Last, we will perform 10-fold cross-validation on the model:
+
+```{r}
+# K-fold cross-validation
+library(boot)
+cv <- cv.glm(data = alc, cost = loss_func, glmfit = m2, K = 10)
+
+# average number of wrong predictions in the cross validation
+cv$delta[1]
+```
+According to 10-fold cross-validation, my model has about 0.24 error, which is a bit better than the model introduced in DataCamp exercises.
