@@ -1,0 +1,24 @@
+# Analysis exercise, week 4
+
+
+This week I'll be exploring the Boston dataset from the R library MASS. THe Boston data contains housing values in suburbs of Boston. More about the dataset [here](https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/Boston.html).
+
+The dataset has the following structure:
+
+Loading the 
+```{r}
+library(MASS)
+str(Boston)
+```
+
+The dataset contains 506 observations of 14 variables, which 
+
+```{r}
+summary(Boston)
+```
+
+Matrix of the variables:
+
+```{r}
+pairs(Boston)
+```
